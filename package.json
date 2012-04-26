@@ -1,10 +1,13 @@
 {
   "name": "image-autosave-proxy",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "local proxy for autosave image when navigate using browser",
   "keywords": ["image","photo","picture","proxy","autosave","browse"],
   "author": "Kaven276 <kaven276@vip.sina.com>",
-  "repository": "git@github.com:kaven276/image-autosave-proxy.git",
+  "repository": { 
+	"type" : "git", 
+	"url" : "git://github.com/kaven276/image-autosave-proxy.git"
+  },
   "dependencies": {
 	"mkdirp" : ">=0.3.1"
   },
