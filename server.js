@@ -12,14 +12,14 @@ var agent = new http.Agent({
 });
 
 var server = http.createServer(function(r, p) {
- 
+
     if (logSwitch) {
         console.log('original request headers');
         console.log(r.headers);
         console.log();
     }
 
-	var headers = r.headers;
+    var headers = r.headers;
     var url = parse(r.url);
     var host = headers.host.split(":");
     var options = {
@@ -29,7 +29,7 @@ var server = http.createServer(function(r, p) {
         path: url.path,
         headers: headers,
         agent: agent
-    };	
+    };
     if (headers['proxy-connection']) {
         delete headers['proxy-connection'];
     }
@@ -89,7 +89,7 @@ var server = http.createServer(function(r, p) {
         if (!fileSize) return;
         if (fileSize < 100 * 1024) return;
         console.log(r.connection.remoteAddress, ' > ', r.url, fileSize);
-        var fpath = path.join('./save', r.headers.host, options.path.replace(/\//g, '~'));
+        var fpath = path.join(process.env['HOME'], 'web_image', r.headers.host, options.path.replace(/\//g, '~'));
         if (fpath[fpath.length - 1] === '/') fpath += 'index.htm';
         mkdirp.sync(path.dirname(fpath));
 
