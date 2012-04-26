@@ -11,6 +11,10 @@ var agent = new http.Agent({
     maxSockets: 50
 });
 
+var save_dir_root = path.join(process.env['HOME'], process.argv[3] || process.env['autosave_root'] || 'web_image');
+var listening_port = process.argv[2] || process.env['autosave_port'];
+
+
 var server = http.createServer(function(r, p) {
 
     if (logSwitch) {
@@ -89,7 +93,7 @@ var server = http.createServer(function(r, p) {
         if (!fileSize) return;
         if (fileSize < 100 * 1024) return;
         console.log(r.connection.remoteAddress, ' > ', r.url, fileSize);
-        var fpath = path.join(process.env['HOME'], 'web_image', r.headers.host, options.path.replace(/\//g, '~'));
+        var fpath = path.join(save_dir_root, r.headers.host, options.path.replace(/\//g, '~'));
         if (fpath[fpath.length - 1] === '/') fpath += 'index.htm';
         mkdirp.sync(path.dirname(fpath));
 
@@ -109,4 +113,12 @@ var server = http.createServer(function(r, p) {
         req.end();
     })
 
-}).listen(8018);
+}).listen(listening_port);
+
+console.log('usage : node server.js <port> <top-dir-under-home>');
+console.log('use env[autosave_root] to specify where to store the website image under your home directory.');
+console.log('use env[autosave_port] to specify proxy server listening port.');
+console.log('listening at ' + listening_port);
+console.log('saving root directory is at ' + save_dir_root);
+
+
